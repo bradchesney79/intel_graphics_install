@@ -1,0 +1,11 @@
+name    'BradChesney79-intel_graphics_install'
+version '0.1.0'
+source ''
+author 'Brad Chesney'
+license 'Creative Commons'
+summary 'Install the Intel provided linux graphics kernel drivers'
+description 'Intel provides drivers for their video chipsets, the experience is better with the new and improved capabilities, so make it easier to take advantage of their kindness.'
+project_page ''
+
+## Add dependencies, if any:
+# dependency 'username/name', '>= 1.2.0'

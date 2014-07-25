@@ -1,0 +1,1 @@
+include intel_graphics_install

@@ -1,0 +1,3 @@
+# intel_graphics_install #
+
+This is the intel_graphics_install module. It provides...
