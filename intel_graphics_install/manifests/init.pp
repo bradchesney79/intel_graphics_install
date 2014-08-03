@@ -18,23 +18,23 @@ class intel_graphics_install ($os = undef, $osVersion = undef, $architecture = u
   
   if $::operatingsystem == 'ubuntu' or 'kubuntu' or 'lubuntu' {
     # do something debian derivatives specific
-    $os = $::operatingsystem
-    #$lsbdistcodename = $::lsbdistcodename
+    # $os = $::operatingsystem
+    # $lsbdistcodename = $::lsbdistcodename
     $lsbdistrelease = $::lsbdistrelease
 
     include apt
 
-    apt::key { 'intel_graphics_1a':
-      key            => '2048R/75E52366',
+    apt::key { 'intel-graphics-1a':
+      # key            => '2048R/75E52366',
       key_source     => 'https://download.01.org/gfx/RPM-GPG-KEY-ilg',
     }
 
-		apt::key { 'intel_graphics_2a':
-		  key            => '4096R/2F4AAA66',
+		apt::key { 'intel-graphics-2a':
+		  # key            => '4096R/2F4AAA66',
       key_source     => 'https://download.01.org/gfx//gfx/RPM-GPG-KEY-ilg-2',
 		}
 
-    apt::source {'intel_graphics_1b':
+    apt::source {'intel-graphics-1b':
       location       => "https://download.01.org/gfx/ubuntu/$lsbdistrelease/main",
       repos          => "Ubuntu $lsbdistrelease",
     }
