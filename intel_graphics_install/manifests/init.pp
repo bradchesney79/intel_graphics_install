@@ -39,9 +39,15 @@ class intel_graphics_install ($os = undef, $osVersion = undef, $architecture = u
       repos          => "Ubuntu $lsbdistrelease",
     }
 
+/*
     Exec["apt-update"] -> package { 'intel-linux-graphics-installer':
       ensure => "installed",
     }
+*/
+package { "intel-linux-graphics-installer":
+  ensure  => latest,
+  require  => Exec['apt-get update'],
+}
     
   }
        /*

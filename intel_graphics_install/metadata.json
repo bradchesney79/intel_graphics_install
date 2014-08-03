@@ -2,8 +2,8 @@
   "author": "Brad Chesney",
   "checksums": {
     "Rakefile": "f37e6131fe7de9a49b09d31596f5fbf1",
-    "manifests/init.pp": "ade569f2304e56763b528f835777c0d2",
-    "Modulefile": "c8648bf8646aaa51f5ac6494867a0430",
+    "manifests/init.pp": "10083e015fa7e8c3bc0f1d5678d43ba4",
+    "Modulefile": "3d4acbcca18466f80c1f69e9726ae17d",
     "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",
     "tests/init.pp": "57724e0baa0f179c072e150db52f40c3",
     "spec/spec_helper.rb": "3ea886dd135e120afa31e0aab12e85b0",
@@ -22,5 +22,5 @@
   "source": "https://github.com/bradchesney79/intel_graphics_install",
   "summary": "Install the Intel provided linux graphics kernel drivers",
   "types": [],
-  "version": "1.1.4"
+  "version": "1.1.5"
 }
