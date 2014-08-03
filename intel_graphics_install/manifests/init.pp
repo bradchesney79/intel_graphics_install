@@ -46,7 +46,7 @@ class intel_graphics_install ($os = undef, $osVersion = undef, $architecture = u
 */
 package { "intel-linux-graphics-installer":
   ensure  => latest,
-  require  => Exec['apt-get update'],
+  # require  => Exec['apt-get update'],
 }
     
   }
