@@ -1,5 +1,5 @@
 name    'BradChesney79-intel_graphics_install'
-version '1.1.6'
+version '1.1.7'
 source 'https://github.com/bradchesney79/intel_graphics_install'
 author 'Brad Chesney'
 license 'Creative Commons'

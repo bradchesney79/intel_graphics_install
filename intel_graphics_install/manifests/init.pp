@@ -34,9 +34,10 @@ class intel_graphics_install ($os = undef, $osVersion = undef, $architecture = u
       key_source     => 'https://download.01.org/gfx//gfx/RPM-GPG-KEY-ilg-2',
 		}
 
-    apt::source {'intel-graphics-1b':
+    apt::source {'intel-graphics':
       location       => "https://download.01.org/gfx/ubuntu/$lsbdistrelease/main",
       repos          => "Ubuntu $lsbdistrelease",
+      release        => '',
     }
 
 /*
