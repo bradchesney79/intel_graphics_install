@@ -12,133 +12,52 @@
 #
 
 
-class intel_graphics_install ($os = undef, $osVersion = undef, $architecture = undef) {
-
-
+class intel_graphics_install () {
   
   if $::operatingsystem == 'ubuntu' or 'kubuntu' or 'lubuntu' {
     # do something debian derivatives specific
-    # $os = $::operatingsystem
-    # $lsbdistcodename = $::lsbdistcodename
+    $lsbdistcodename = $::lsbdistcodename
     $lsbdistrelease = $::lsbdistrelease
 
+    # including the apt module from the puppetlabs forge
     include apt
 
+    # add the first key from intel's video drivers repository
     apt::key { 'intel-graphics-1a':
-      key            => '75E52366',
-      key_source     => 'https://download.01.org/gfx/RPM-GPG-KEY-ilg',
+      key      => '75E52366',
+      key_source   => 'https://download.01.org/gfx/RPM-GPG-KEY-ilg',
     }
 
-		apt::key { 'intel-graphics-2a':
-		  key            => '2F4AAA66',
-      key_source     => 'https://download.01.org/gfx//gfx/RPM-GPG-KEY-ilg-2',
-		}
+    # add the second key from intel's video drivers repository
+    apt::key { 'intel-graphics-2a':
+      key      => '2F4AAA66',
+      key_source   => 'https://download.01.org/gfx/RPM-GPG-KEY-ilg-2',
+    }
 
+    #apt-get update via puppet requires extra resources not in the default path
+    Exec {
+      path => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/' ],
+    }
+
+    # I want to add the repository to the sources so I can add & update the
+    # package like other normal packages
     apt::source {'intel-graphics':
-      location       => "https://download.01.org/gfx/ubuntu/$lsbdistrelease/main",
-      repos          => "Ubuntu $lsbdistrelease",
-      release        => '',
-    }
-
-/*
-    Exec["apt-update"] -> package { 'intel-linux-graphics-installer':
-      ensure => "installed",
-    }
-*/
-package { "intel-linux-graphics-installer":
-  ensure  => latest,
-  # require  => Exec['apt-get update'],
-}
-    
-  }
-       /*
-        
-    define append_line_if_not_found ($line = undef, $sources = undef, $refreshonly = false) {
-      exec { "/bin/echo '$line' >> '$sources'":
-      unless      => "/bin/grep -Fxqe '$line' '$sources'",
-      refreshonly => $refreshonly,
-    }
-  }
-    $sources = '/etc/apt/sources.list'
- 
-    * check /etc/apt/trusted.gpg for repository gpg key
-    * http://ubuntuforums.org/showthread.php?t=1257504
-    
-    exec { "wget --no-check-certificate https://download.01.org/gfx/RPM-GPG-KEY-ilg -O - | sudo apt-key add -":
-      onlyif => "sudo apt-key --keyring /etc/apt/trusted.gpg list|grep -c 2048R/75E52366",
-      refreshonly => true,
-    }
-
-    exec { "wget --no-check-certificate https://download.01.org/gfx/RPM-GPG-KEY-ilg-2 -O - | sudo apt-key add -":
-      onlyif => "sudo apt-key --keyring /etc/apt/trusted.gpg list|grep -c 4096R/2F4AAA66",
-      refreshonly => true,
-    }
-    
-    if $::architecture == 'amd64' or 'i386' {
-        $architecture = $::architecture
-    }
-    
-    if $::operatingsystemrelease == '12.04' {
-      $osVersion = $::operatingsystemrelease
-      append_line_if_not_found { sources:
-        line => 'deb https://download.01.org/gfx/ubuntu/12.04/main Ubuntu 12.04',
-        sources => $sources
-      }
-    }
-    
-    if $::operatingsystemrelease == '12.10' {
-      $osVersion = $::operatingsystemrelease
-      append_line_if_not_found { sources:
-        line => 'deb https://download.01.org/gfx/ubuntu/12.10/main Ubuntu 12.10',
-        sources => $sources
-      }
-    }
-    
-    if $::operatingsystemrelease == '13.04' {
-      $osVersion = $::operatingsystemrelease
-      append_line_if_not_found { sources:
-        line => 'deb https://download.01.org/gfx/ubuntu/13.04/main Ubuntu 13.04',
-        sources => $sources
-      }
-    }
-    
-    if $::operatingsystemrelease == '13.10' {
-      $osVersion = $::operatingsystemrelease
-      append_line_if_not_found { sources:
-        line => 'deb https://download.01.org/gfx/ubuntu/13.10/main Ubuntu 13.10',
-        sources => $sources
-      }
-    }
-    
-    
-    if $::operatingsystemrelease == '14.04' {
-      $osVersion = $::operatingsystemrelease
-      append_line_if_not_found { sources:
-        line => 'deb https://download.01.org/gfx/ubuntu/14.04/main Ubuntu 14.04',
-        sources => $sources
-      }
-    }
-    
-    if $::operatingsystemrelease == '14.10' {
-      $osVersion = $::operatingsystemrelease
-      append_line_if_not_found { sources:
-        line => 'deb https://download.01.org/gfx/ubuntu/14.10/main Ubuntu 14.10',
-        sources => $sources
-      }
-    }
+      location     => "https://download.01.org/gfx/ubuntu/$lsbdistrelease/main",
+      repos      => 'main',
+      release    => $lsbdistcodename,
+    }  
   }
 
-  /*
-   * if $::operatingsystem == 'fedora' {
-   * # do something Fedora specific
-   * $os = $::operatingsystem
-   *
-   *}
+
+  ###!
+  ###! I think my problem is here somehow
+  ###!
 
 
-  if $os != undef and $osVersion != undef and $architecture != undef {
-
+  # this supposedly should allow me to install the package with normal conventions
+  package { 'intel-linux-graphics-installer':
+    ensure  => installed,
+    require => File['/etc/apt/sources.list.d/intel-graphics.list'],
   }
-    
-   */
+
 }
